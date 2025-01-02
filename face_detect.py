@@ -1,27 +1,40 @@
 import cv2
+
+# Load the Haar cascade for face detection
 face_cascade_name = cv2.data.haarcascades + 'haarcascade_frontalface_alt.xml'
 face_cascade = cv2.CascadeClassifier()
-if not face_cascade.load(cv2.samples.findFile(face_cascade_name)):
-    print("Error loading xml file")
-def detect():
-    cap = cv2.VideoCapture(0)
 
-    while True:
-        _,img = cap.read()
+# Check if the cascade file is loaded correctly
+if not face_cascade.load(face_cascade_name):
+    print("Error loading Haar cascade")
+    exit()
 
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+# Start video capture
+cap = cv2.VideoCapture(0)
 
-        face = face_cascade.detectMultiScale(gray, 1.1 , 4)
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        print("Failed to grab frame")
+        break
 
-        for(x,y,w,h) in face:
-            cv2.rectangle(img, (x,y), (x+w , y+h), (255,0,0), 2)
+    # Convert the frame to grayscale for better detection
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        cv2.imshow("Face Detect", img)
+    # Detect faces in the frame
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
-        key = cv2.waitKey(0)
-        if key == ord(' '):
-            break 
+    # Draw rectangles around detected faces
+    for (x, y, w, h) in faces:
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
 
-    cap.release()
+    # Display the output
+    cv2.imshow("Face Detection", frame)
 
-detect()
+    # Break the loop when 'q' is pressed
+    if cv2.waitKey(1) & 0xFF == ord( ):
+        break
+
+# Release the video capture and close all windows
+cap.release()
+cv2.destroyAllWindows()
