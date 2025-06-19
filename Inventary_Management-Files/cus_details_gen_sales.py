@@ -29,7 +29,7 @@ for product in products:
             print("-----------------------------")
 
             prod_details[3] = str(int(prod_details[3]) - int(ui_prod_qn))
-            
+            # creating new sales.txt file for customer data 
             fd = open("Sales.txt",'a')
             sales_detail = ui_username +","+ ui_phone +","+ ui_mail +","+ prod_details[1] +","+ ui_prod_id +","+ ui_prod_qn +","+ str(int(ui_prod_qn) * int(prod_details[2]))+","+ time.ctime()+ "\n"
             fd.write(sales_detail)
