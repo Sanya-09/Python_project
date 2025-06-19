@@ -39,3 +39,24 @@ for product in products:
         print("Price            : ", prod_details[2]) 
         print("Available Stock  : ", prod_details[3])
         print("-----------------------------")
+
+
+#GENERATING BILL
+ui_prod_id = input("Enter product ID: ")
+ui_prod_qn = input("Enter product Quantity: ")
+
+
+for product in products:
+    prod_details = product.split(',') 
+
+    if prod_details[0] == ui_prod_id: 
+        print("-----------------------------")
+        print("Product Name     : ", prod_details[1])
+        print("Price            : ", prod_details[2]) 
+        print("Quantity         : ", ui_prod_qn) 
+        print("-----------------------------")
+        
+        # Calculate billing amount
+        billing_amount = int(ui_prod_qn) * int(prod_details[2])
+        print("Billing Amount   : ", billing_amount)
+        print("-----------------------------")
