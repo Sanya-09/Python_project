@@ -1,12 +1,17 @@
 import cv2
 
-imgcapture = cv2.VideoCapture(0)
-result = True
+cap= cv2.VideoCapture(0)
 
-while(result):
-    ret, frame = imgcapture.read()
-    cv2.imwrite("pic.jpg", frame)
-    result = False
-    print("Image Captured...")
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+    
+    small_frame = cv2.resize(frame, (640, 400))
+    cv2.imshow('Webcam Feed', frame)
 
-imgcapture.release()
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break       
+
+cap.release()
+cv2.destroyAllWindows()
